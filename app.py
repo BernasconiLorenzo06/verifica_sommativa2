@@ -30,7 +30,6 @@ def esercizio2(citti):
    tabella = table.to_html()
    return render_template('esercizio2.html', tabella = tabella)
 
-+
 
 @app.route('/esercizio3',methods = ["GET"])
 def esercizio3():
@@ -68,17 +67,24 @@ def esercizio5():
     save_path = os.path.join(dir, file_name)
     plt.savefig(save_path, dpi = 100)
     #secondo grafico
-
-
-
-
-
-
-
+    labels = df_clienti['state']
+    dati = df_clienti['first_name'] 
+    fig, ax = plt.subplots(figsize=(15,8))
+    ax.barh(labels, dati, label='totale vaccinati in ogni regione')
+    dir = "static/images"
+    file_name = "graf2.png"
+    save_path = os.path.join(dir, file_name)
+    plt.savefig(save_path, dpi = 100)
     #terzo grafico
-
-
-
+    labels = df_clienti['state']
+    dati = df_clienti['first_name'] 
+    plt.figure(figsize=(16, 8))
+    plt.pie(dati, labels=labels, autopct='%1.1f%%')
+    plt.show()
+    dir = "static/images"
+    file_name = "graf3.png"
+    save_path = os.path.join(dir, file_name)
+    plt.savefig(save_path, dpi = 100)
     return render_template('grafici.html')
 
 if __name__ == '__main__':
