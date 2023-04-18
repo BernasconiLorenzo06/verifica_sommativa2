@@ -1,9 +1,14 @@
 from flask import Flask, render_template, request
 app = Flask(__name__)
 
+
 @app.route('/')
 def home():
-   return render_template('home.html')
+    import pandas as pd
+    df = pd.read_excel('https://github.com/wtitze/3E/blob/main/BikeStores.xls?raw=true', sheet_name = "customers")
+    c = list(set(df["city"]))
+    c.sort()
+    return render_template('home.html', lista = c)
 
 
 
@@ -17,16 +22,15 @@ def esercizio1():
    tabella = table.to_html()
    return render_template('esercizio1.html', tabella = tabella)
 
-@app.route('/esercizio2',methods = ["GET"])
-def esercizio2():
+@app.route('/esercizio2/<citti>',methods = ["GET"])
+def esercizio2(citti):
    import pandas as pd
    df = pd.read_excel('https://github.com/wtitze/3E/blob/main/BikeStores.xls?raw=true', sheet_name = "customers")
-   citta = request.args.get('citta')
-   table = df[df["city"] == citta]
+   table = df[df["city"] == citti]
    tabella = table.to_html()
    return render_template('esercizio2.html', tabella = tabella)
 
-
++
 
 @app.route('/esercizio3',methods = ["GET"])
 def esercizio3():
@@ -45,6 +49,37 @@ def esercizio4():
    table = df_clienti[df_clienti["first_name"] == df_clienti["first_name"].max()][["state"]]
    tabella = table.to_html()
    return render_template('esercizio4.html', tabella = tabella)
+
+
+@app.route('/esercizio5')
+def esercizio5():
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    import os 
+    df = pd.read_excel('https://github.com/wtitze/3E/blob/main/BikeStores.xls?raw=true', sheet_name = "customers")
+    df_clienti = df.groupby("state")[["first_name"]].count().reset_index()
+    labels = df_clienti['state']
+    dati = df_clienti['first_name'] 
+    #primo grafico
+    fig, ax = plt.subplots(figsize=(10,8))
+    ax.bar(labels, dati, label='totale vaccinati in ogni regione')
+    dir = "static/images"
+    file_name = "graf.png"
+    save_path = os.path.join(dir, file_name)
+    plt.savefig(save_path, dpi = 100)
+    #secondo grafico
+
+
+
+
+
+
+
+    #terzo grafico
+
+
+
+    return render_template('grafici.html')
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)

@@ -14,13 +14,9 @@
     </form> <br> <br>
 
     <h2>l'elenco dei clienti che risiedono in una certa città inserita dall'utente</h2>
-    <form action="/esercizio2" method = "GET">
-        
-        <input type="text" name = "citta" ></input> <br>
-
-
-        <p><input type = "submit" value = "Clicca per conoscere i dati" /></p>
-    </form> <br> <br>
+    {% for citt in lista %}
+        <a href = "/esercizio2/{{citt}}"><p>{{citt}}</p></a>
+    {%endfor%}
     <h2>3. il numero di clienti per ogni stato.</h2>
     <form action="/esercizio3" method = "GET">
      
@@ -37,7 +33,7 @@
         <p><input type = "submit" value = "Clicca per conoscere i dati" /></p>
     </form>
     
-    <h2>3. il numero di clienti per ogni stato.</h2>
+    <h2>3.grafici</h2>
 
     <form action="/esercizio5" method = "GET">
      
