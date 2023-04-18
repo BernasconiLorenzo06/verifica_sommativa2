@@ -36,5 +36,15 @@ def esercizio3():
    tabella = table.to_html()
    return render_template('esercizio3.html', tabella = tabella)
 
+
+@app.route('/esercizio4',methods = ["GET"])
+def esercizio4():
+   import pandas as pd
+   df = pd.read_excel('https://github.com/wtitze/3E/blob/main/BikeStores.xls?raw=true', sheet_name = "customers")
+   df_clienti = df.groupby("state")[["first_name"]].count().reset_index()
+   table = df_clienti[df_clienti["first_name"] == df_clienti["first_name"].max()][["state"]]
+   tabella = table.to_html()
+   return render_template('esercizio4.html', tabella = tabella)
+
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
